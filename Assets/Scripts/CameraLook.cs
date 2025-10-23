@@ -9,18 +9,27 @@ public class CameraLook : MonoBehaviour
     [SerializeField] float maxAngle = 45f;
     [SerializeField] float turnSpeed = 5f;
 
+    [HideInInspector] public bool canRotate = true;
     private float yaw = 0f;
     private bool isLookingBack = false;
     private float targetYaw = 0f;
 
-    void Start()
+    void OnEnable()
     {
         lookAction.action.Enable();
         turnBackAction.action.Enable();
     }
 
+    void OnDisable()
+    {
+        lookAction.action.Disable();
+        turnBackAction.action.Disable();
+    }
+
     void Update()
     {
+        if (!canRotate) return;
+
         bool turnPressed = turnBackAction.action.IsPressed();
 
         if (turnPressed && !isLookingBack)
